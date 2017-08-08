@@ -15,27 +15,34 @@
 <div class="container-fluid">
 	<div class="nav navbar-inverse">
 		<div class="navbar-brand condensed">
-			Capt. Jim Reinknecht
+			Hipster Hangman by Jim Reinknecht
 		</div>
 	</div>
 </div>
 
 <div class="container">
 	<div class="jumbotron">
-	<h1> Let's Play A Game of Hangman!!! </h1><br>
-		<img src="./assets/images/sling.jpg" height="240" width="320">
+	<h3> Let's Play A Game of Hipster Hangman!!! </h3><br>
+		<img src="./assets/images/sling.jpg" height="120" width="160"> 
+		<p> Press a letter to guess .....</p>
 
 	</div>
 
-	<div class="col-sm-8" id="gameinfo">
-	Game Info Goes Here
+	<div class="col-xs-8" id="gameInfo">
+	
+	<p>Letters Guessed: </p><span id="lettersGuessed"></span>
+	<br><br>
+	<p>Total Guesses Made: </p><span id="guessesMade"></span>
+	<p>Wrong Guesses: </p><span id="wrongGuesses"></span>
+	<p>Guesses Left: </p><span id="guessesLeft"></span>
 
 	</div>
-	<div class="col-sm-3" id="scores">
-	<p>Score: </p>
-	<p>Wins: </p>
-	<p>Losses: </p>
-	<p>Games Played: </p>
+
+	<div class="col-xs-3" id="gameScore">
+	<p>Score: </p> <span id="score"></span>
+	<p>Wins: </p> <span id="wins"></span>
+	<p>Losses: </p> <span id="losses"></span>
+	<p>Games Played: </p> <span id="gamesPlayed"></span>
 	</div>
 </div>
 <br><br>
