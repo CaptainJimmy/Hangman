@@ -5,12 +5,6 @@ var correctGuesses = 0;
 var guessesMade = 0;
 var wrongGuessesLeft = 10;
 var hangmanDashWord = [];
-var lettersGuessed = [];
-var wrongGuesses = 0;
-var correctGuesses = 0;
-var guessesMade = 0;
-var wrongGuessesLeft = 10;
-var hangmanDashWord = [];
 var hangmanDashWordChar = "-";
 var hangmanDashWordDisplay = "";
 var score = 0;
@@ -22,9 +16,10 @@ var hipsterWordNumber = Math.floor(Math.random() * hipsterArray.length);
 var hipsterWord = hipsterArray[hipsterWordNumber];
 var allowedLetters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 var notAllowed = "Not Allowed. Check Your Topknot, Bro. Use letters only.";
-var goodGuessPressed = "Well done, my unkemptly bearded friend. Press another guess!";
-var badGuessPressed = "Ouch. That's going to hurt. Put some Aloe on it maybe."
-
+var goodGuessPressed = "You were right that time.  This game was way cooler before you found out about it.";
+var badGuessPressed = " Oh hey someone dented your Prius. Plus you guessed wrong."
+var youWon = "you win, hipster. have a luke warm PBR. Hashtag NO ONE CARES";
+var youLost = "better luck next time. Oh hey, nice skinny jeans. Said no one ever."
 function startGame(){
 hipsterWordNumber = Math.floor(Math.random() * hipsterArray.length);
 hipsterWord = hipsterArray[hipsterWordNumber];
@@ -33,13 +28,17 @@ wrongGuesses = 0;
 correctGuesses = 0;
 guessesMade = 0;
 wrongGuessesLeft = 10;
+//the array for the dashes
 hangmanDashWord = [];
+//a string created from the array above with no commas
+hangmanDashWordDisplay = "";
 displayDashWord();
 displayStatus();
 };
 
-// display the hangman dashes clue
+// display the hangman dashes clue word
 function displayDashWord() {
+	//debug: display variables
 console.log("Word: " + hipsterWord + " Length: " + hipsterWord.length + " Position in array: " + hipsterWordNumber) ;	
 for ( var i=0; i < hipsterWord.length ; i++){
 	
@@ -47,7 +46,7 @@ for ( var i=0; i < hipsterWord.length ; i++){
 	hangmanDashWordDisplay += hangmanDashWordChar + " ";
 }
 
-console.log("DEBUG FOOFOO " + "hangmanDashWord:  " + hangmanDashWord + "hangmanDashWordDisplay: " + hangmanDashWordDisplay);
+//console.log("DEBUG FOOFOO " + "hangmanDashWord:  " + hangmanDashWord + "hangmanDashWordDisplay: " + hangmanDashWordDisplay);
 document.querySelector("#hangmanDashWordDisplay").innerHTML = hangmanDashWordDisplay;
 }
 
@@ -57,13 +56,14 @@ document.querySelector("#lettersGuessed").innerHTML = lettersGuessed;
 document.querySelector("#correctGuesses").innerHTML = correctGuesses;
 document.querySelector("#wrongGuesses").innerHTML = wrongGuesses;
 document.querySelector("#wrongGuessesLeft").innerHTML = wrongGuessesLeft;
+document.querySelector("#guessesMade").innerHTML = guessesMade;
 }
 
 // pregame page setup
 
-//startGame();
 displayDashWord();
 displayStatus();
+
 // on key up event
 document.onkeyup = function(event) {
 	var playerPick = (event.key);
@@ -72,41 +72,49 @@ document.onkeyup = function(event) {
 //check to see if the playerPick is a letter
 if ( allowedLetters.indexOf(playerPick) === -1 ) {
 	document.querySelector("#instructions").innerHTML = notAllowed;
-	console.log(allowedLetters.indexOf(playerPick));
+	//console.log(allowedLetters.indexOf(playerPick));
 }
 else {
-console.log(" Players Pick: " + playerPick + " Position in allowedLetters array: " + allowedLetters.indexOf(playerPick));
+//console.log(" Players Pick: " + playerPick + " Position in allowedLetters array: " + allowedLetters.indexOf(playerPick));
 
-// update the dash word display to reflect the correct guess
+// update the dash word displayed to reflect the correct guess
 function updateDashWord (playerPick) {
-	//in case letter is found multiple times
-		hangmanDashWordDisplay = "";
+	
+		
+		//in case letter is found multiple times
 		for (var i=0;i<hipsterWord.length;i++){
-			var letterLocation = hipsterWord.charAt(playerPick);
-			console.log("letterLocation: " + letterLocation + " playerPick: " + playerPick)
-			if ( letterLocation !== -1 ) {
-				hangmanDashWord[letterLocation] = playerPick;
-				console.log("DEBUG FOO " + hangmanDashWord[i] + " " + playerPick);
-				hangmanDashWordDisplay += hangmanDashWord[i] + " "
-				
-				}
-		// for (var j=0;j<hangmanDashWord.length;j++){
-		// 	console.log("DEBUG HangmanDashWord " + j);
-		// 	hangmanDashWordDisplay += hangmanDashWord[j] + " "
-		// 	}
+			//console.log("Testing playerPick " + playerPick)
+			var letterExists = hipsterWord.includes(playerPick);
+			//console.log("letterExists: " + letterExists + " playerPick: " + playerPick + " hipsterWord " + hipsterWord + " " + hipsterWord.charAt(i));
+			if ( letterExists === true && hipsterWord.charAt(i) === playerPick ) {
+				//console.log("letter " +playerPick +" Exists at foo1234 at position " + i +  " letterExists: " + letterExists);
+				hangmanDashWord[i] = playerPick;
+				//console.log ("debug turkey: " + hangmanDashWord[i]+ " " + playerPick);
+				//hangmanDashWordDisplay += hangmanDashWord[i] + " ";
+			}
+			//else {
+				//console.log ("debug chicken");
+				//hangmanDashWordDisplay = hangmanDashWordDisplay + " " + hangmanDashWordChar;
+			//}
 		}
 		
-		console.log("DEBUG FOOFOOFOO " + " hangmanDashWordDisplay: " + hangmanDashWordDisplay);
+		//rebuild dashworddisplay
+		hangmanDashWordDisplay = "";
+		for (var k=0 ; k<hangmanDashWord.length;k++){
+				hangmanDashWordDisplay += hangmanDashWord[k] + " ";
+		}
 		document.querySelector("#hangmanDashWordDisplay").innerHTML = hangmanDashWordDisplay;
 	
 }
 
 function correctlyGuessed(playerPick) {
-	console.log("correctlyGuessed");
-	//check to see if the game is finished
-	gameWinCheck();
+	//console.log("correctlyGuessed");
+	
 	// change the instructions info
 	document.querySelector("#instructions").innerHTML = goodGuessPressed;
+	// 	increment and display guessesMade
+	guessesMade++;
+	document.querySelector("#guessesMade").innerHTML = guessesMade;
 // 	update and redisplay hangmanDashWord, 
 	updateDashWord(playerPick);
 // 	increment and display  lettersGuessed,
@@ -115,13 +123,15 @@ function correctlyGuessed(playerPick) {
 // 	increment and display correctGuesses,
 	correctGuesses++;
 	document.querySelector("#correctGuesses").innerHTML = correctGuesses;
+	//check to see if the game is finished
+	gameWinCheck();
 // 	play correct sound 
 }
 
 
 
 function incorrectlyGuessed(playerPick) {
-	console.log("incorrectlyGuessed");
+	//console.log("incorrectlyGuessed");
 	// change the instructions info
 	document.querySelector("#instructions").innerHTML = badGuessPressed;
 
@@ -151,6 +161,8 @@ function gameOverLose(){
   document.querySelector("#gamesPlayed").innerHTML = gamesPlayed;
   alert("YOU LOSE SUCKA");
   //play loser sound?
+  //start over
+  startGame();
 };
 
 // 	display winner message
@@ -158,7 +170,8 @@ function gameOverWin(){
 	wins++; gamesPlayed++;
 	document.querySelector("#wins").innerHTML = wins;
   	document.querySelector("#gamesPlayed").innerHTML = gamesPlayed;
-  	alert("you win, hipster. have a luke warm PBR. good for you. no one cares, hashtag that.");
+  	document.querySelector("#instructions").innerHTML = youWon;
+  	alert("You won. Click to start again");
   	startGame();
   	//play winner sound?
 };
@@ -168,10 +181,11 @@ function gameWinCheck(){
 	for (var i=0;i < hangmanDashWord.length ; i++) {
 		if (hangmanDashWord[i] === hangmanDashWordChar){
 			count++;
+			//console.log("debug cheese: " + count)
 		}
 	}
 	if ( count === 0 ) {
-		console.log("count is zero");
+		//console.log("count is zero");
 		gameOverWin();
 	}
 }
@@ -181,14 +195,14 @@ function gameWinCheck(){
 // check to see if playerPick has been used already
 
 if ( lettersGuessed.indexOf(playerPick) != -1 ){
-	console.log("already picked!!");
+	//console.log("already picked!!");
 	document.querySelector("#instructions").innerHTML = "You already pressed " + playerPick + " please try again.";
 	return;
 	}
 
 // 		 search the array for the letter pressed
 else if ( hipsterWord.indexOf(playerPick) != -1 ) {
-		console.log("found pick ");
+		//console.log("found pick ");
 		correctlyGuessed(playerPick);
 	}
 
