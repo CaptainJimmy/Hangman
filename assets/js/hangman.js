@@ -11,7 +11,7 @@ var score = 0;
 var wins = 0;
 var losses = 0;
 var gamesPlayed = 0;
-var hipsterArray = [ "topknot", "meggings", "flexitarian", "vexillologist", "chartreuse", "microdosing", "pitchfork", "skateboard", "locavore", "glossier", "thundercats", "readymade", "unicorn", "succulents" ];
+var hipsterArray = [ "topknot", "meggings", "pennyfarthing", "flexitarian", "vexillologist", "chartreuse", "microdosing", "pitchfork", "skateboard", "locavore", "glossier", "thundercats", "readymade", "unicorn", "succulents" ];
 var hipsterWordNumber = Math.floor(Math.random() * hipsterArray.length);
 var hipsterWord = hipsterArray[hipsterWordNumber];
 var allowedLetters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
@@ -125,7 +125,10 @@ function correctlyGuessed(playerPick) {
 	document.querySelector("#correctGuesses").innerHTML = correctGuesses;
 	//check to see if the game is finished
 	gameWinCheck();
+
 // 	play correct sound 
+	var sound = new Audio("../Hangman/assets/sound/ding.wav");
+	sound.play();
 }
 
 
@@ -151,7 +154,8 @@ function incorrectlyGuessed(playerPick) {
 	lettersGuessed.push(playerPick);
 	document.querySelector("#lettersGuessed").innerHTML = lettersGuessed;
 // 	play fail sound
-
+	var sound = new Audio("../Hangman/assets/sound/buzzer.wav");
+	sound.play();
 };
 // };
 // 	display loser message
